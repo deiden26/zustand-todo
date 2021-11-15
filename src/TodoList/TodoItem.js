@@ -1,11 +1,11 @@
 import { memo } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 
+import { getTodoItemById } from './selectors'
 import {
-  getTodoItemById,
   updateTodoItemSetter,
   removeTodoItemSetter,
-} from './selectors'
+} from './setters';
 
 export default memo(function TodoItem({itemId}) {
   const item = useRecoilValue(getTodoItemById(itemId));
