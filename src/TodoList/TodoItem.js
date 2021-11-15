@@ -1,34 +1,35 @@
-import { useRecoilState } from 'recoil';
+import { memo } from 'react';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 
-import { todoListState } from './state';
+import {
+  getTodoItemById,
+  updateTodoItemSetter,
+  removeTodoItemSetter,
+} from './selectors'
 
-export default function TodoItem({itemId}) {
-  const [todoList, setTodoList] = useRecoilState(todoListState);
-  const item = todoList[getItemIndex(todoList, itemId)];
+export default memo(function TodoItem({itemId}) {
+  const item = useRecoilValue(getTodoItemById(itemId));
+  const updateTodoItem = useSetRecoilState(updateTodoItemSetter);
+  const removeTodoItem = useSetRecoilState(removeTodoItemSetter);
+
 
   const editItemText = ({ target: {value} }) => {
-    const newList = updateItem(todoList, {
+    updateTodoItem({
       ...item,
       text: value,
     });
-
-    setTodoList(newList);
-  }
-
-  const deleteItem = () => {
-    const newList = removeItem(todoList, item);
-
-    setTodoList(newList);
   }
 
   const toggleItemCompletion = () => {
-    const newList = updateItem(todoList, {
+    updateTodoItem({
       ...item,
       isComplete: !item.isComplete,
     });
-
-    setTodoList(newList);
   };
+
+  const deleteItem = () => {
+    removeTodoItem(item);
+  }
 
   return (
     <div>
@@ -41,18 +42,4 @@ export default function TodoItem({itemId}) {
       <button onClick={deleteItem}>X</button>
     </div>
   )
-}
-
-function getItemIndex(todoList, itemId) {
-  return todoList.findIndex(item => item.id === itemId);
-}
-
-function updateItem(todoList, item) {
-  const index = getItemIndex(todoList, item.id)
-  return [...todoList.slice(0, index), item, ...todoList.slice(index + 1)];
-}
-
-function removeItem(todoList, item) {
-  const index = getItemIndex(todoList, item.id)
-  return [...todoList.slice(0, index), ...todoList.slice(index + 1)];
-}
+})
