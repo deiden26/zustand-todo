@@ -24,10 +24,10 @@ export default function TodoItemItemCreator() {
   };
 
   return (
-    <div>
+    <form onSubmit={(event) => { event.preventDefault(); addItem(); }}>
       <input type="text" value={inputValue} onChange={onChange} />
-      <button onClick={addItem}>Add</button>
-    </div>
+      <input type="submit" value="Add" />
+    </form>
   );
 }
 
