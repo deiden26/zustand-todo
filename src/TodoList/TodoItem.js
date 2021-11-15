@@ -1,6 +1,6 @@
 import { useRecoilState } from 'recoil';
 
-import { todoListState } from './todoListState';
+import { todoListState } from './state';
 
 export default function TodoItem({item}) {
   const [todoList, setTodoList] = useRecoilState(todoListState);
