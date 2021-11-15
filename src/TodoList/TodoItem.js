@@ -4,11 +4,10 @@ import { todoListState } from './state';
 
 export default function TodoItem({itemId}) {
   const [todoList, setTodoList] = useRecoilState(todoListState);
-  const index = todoList.findIndex((listItem) => listItem.id === itemId);
-  const item = todoList[index];
+  const item = todoList[getItemIndex(todoList, itemId)];
 
   const editItemText = ({ target: {value} }) => {
-    const newList = replaceItemAtIndex(todoList, index, {
+    const newList = updateItem(todoList, {
       ...item,
       text: value,
     });
@@ -17,13 +16,13 @@ export default function TodoItem({itemId}) {
   }
 
   const deleteItem = () => {
-    const newList = removeItemAtIndex(todoList, index);
+    const newList = removeItem(todoList, item);
 
     setTodoList(newList);
   }
 
   const toggleItemCompletion = () => {
-    const newList = replaceItemAtIndex(todoList, index, {
+    const newList = updateItem(todoList, {
       ...item,
       isComplete: !item.isComplete,
     });
@@ -44,10 +43,16 @@ export default function TodoItem({itemId}) {
   )
 }
 
-function replaceItemAtIndex(arr, index, newValue) {
-  return [...arr.slice(0, index), newValue, ...arr.slice(index + 1)];
+function getItemIndex(todoList, itemId) {
+  return todoList.findIndex(item => item.id === itemId);
 }
 
-function removeItemAtIndex(arr, index, newValue) {
-  return [...arr.slice(0, index), ...arr.slice(index + 1)];
+function updateItem(todoList, item) {
+  const index = getItemIndex(todoList, item.id)
+  return [...todoList.slice(0, index), item, ...todoList.slice(index + 1)];
+}
+
+function removeItem(todoList, item) {
+  const index = getItemIndex(todoList, item.id)
+  return [...todoList.slice(0, index), ...todoList.slice(index + 1)];
 }
