@@ -11,7 +11,9 @@ export default function TodoListFilters() {
 
   return (
     <>
-      Filter:
+      <label>
+        Filter:
+      </label>
       <select value={filter} onChange={updateFilter}>
         <option value="Show All">All</option>
         <option value="Show Completed">Completed</option>
