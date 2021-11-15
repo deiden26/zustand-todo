@@ -2,9 +2,10 @@ import { useRecoilState } from 'recoil';
 
 import { todoListState } from './state';
 
-export default function TodoItem({item}) {
+export default function TodoItem({itemId}) {
   const [todoList, setTodoList] = useRecoilState(todoListState);
-  const index = todoList.findIndex((listItem) => listItem === item);
+  const index = todoList.findIndex((listItem) => listItem.id === itemId);
+  const item = todoList[index];
 
   const editItemText = ({ target: {value} }) => {
     const newList = replaceItemAtIndex(todoList, index, {

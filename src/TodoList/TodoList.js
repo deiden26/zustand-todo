@@ -15,7 +15,7 @@ export default function TodoList() {
       <TodoListFilters />
       <TodoItemItemCreator/>
       {todoList.map(todoItem => (
-        <TodoItem key={todoItem.id} item = {todoItem} />
+        <TodoItem key={todoItem.id} itemId={todoItem.id} />
       ))}
     </>
   );
