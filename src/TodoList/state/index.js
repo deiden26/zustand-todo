@@ -1,2 +1,2 @@
-export { todoListState } from './todoListState';
-export { todoListFilterState } from './todoListFilterState';
+export * from './todoListState';
+export * from './todoListFilterState';

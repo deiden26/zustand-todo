@@ -1,16 +1,14 @@
-import { memo } from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { memo, useCallback } from 'react';
 
-import { getTodoItemById } from './selectors'
-import {
-  updateTodoItemSetter,
-  removeTodoItemSetter,
-} from './setters';
+import { useTodoListStore } from './state'
 
-export default memo(function TodoItem({itemId}) {
-  const item = useRecoilValue(getTodoItemById(itemId));
-  const updateTodoItem = useSetRecoilState(updateTodoItemSetter);
-  const removeTodoItem = useSetRecoilState(removeTodoItemSetter);
+export default memo(function TodoItem({todoId}) {
+  const item = useTodoListStore(useCallback(
+    (state) => state.getTodo(todoId),
+    [todoId]
+  ));
+  const updateTodoItem = useTodoListStore(state => state.updateTodoItem);
+  const removeTodoItem = useTodoListStore(state => state.removeTodoItem);
 
 
   const editItemText = ({ target: {value} }) => {
@@ -30,6 +28,8 @@ export default memo(function TodoItem({itemId}) {
   const deleteItem = () => {
     removeTodoItem(item);
   }
+
+  console.log(`Rendering: ${item.text}`)
 
   return (
     <div>

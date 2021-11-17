@@ -1,6 +1,6 @@
-import { atom } from "recoil";
+import create from 'zustand'
 
-export const todoListFilterState = atom({
-  key: 'todoListFilterState',
-  default: 'Show All',
-});
+export const useFilterStore = create((set) => ({
+  filter: 'Show All',
+  setFilter: (newFilter) => set((state) => ({ filter: newFilter })),
+}));

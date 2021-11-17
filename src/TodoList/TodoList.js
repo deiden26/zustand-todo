@@ -1,13 +1,14 @@
-import { useRecoilValue } from "recoil";
-
-import { filteredTodoListState } from "./selectors/filteredTodoListState";
+import { useTodoListStore, useFilterStore } from './state';
 
 import TodoItem from "./TodoItem";
 import TodoItemItemCreator from "./TodoItemCreator";
 import TodoListFilters from "./TodoListFilters";
 
 export default function TodoList() {
-  const todoList = useRecoilValue(filteredTodoListState);
+  const filter = useFilterStore((state) => state.filter);
+  const todoList = useTodoListStore(
+    (state) => state.getFilteredTodoList(filter)
+  );
 
   return (
     <>
@@ -15,7 +16,7 @@ export default function TodoList() {
       <TodoListFilters />
       <TodoItemItemCreator/>
       {todoList.map(todoItem => (
-        <TodoItem key={todoItem.id} itemId={todoItem.id} />
+        <TodoItem key={todoItem.id} todoId={todoItem.id} />
       ))}
     </>
   );

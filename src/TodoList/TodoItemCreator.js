@@ -1,21 +1,17 @@
 import { useState } from 'react';
-import { useSetRecoilState } from 'recoil';
 
-import { todoListState } from './state'
+import { useTodoListStore } from './state'
 
 export default function TodoItemItemCreator() {
   const [inputValue, setInputValue] = useState('');
-  const setTodoList = useSetRecoilState(todoListState);
+  const addTodo = useTodoListStore((state) => state.addTodo);
 
-  const addItem = () => {
-    setTodoList((oldTodoList) => [
-      ...oldTodoList,
-      {
-        id: getId(),
-        text: inputValue,
-        isComplete: false,
-      }
-    ]);
+  const addNewTodo = () => {
+    addTodo({
+      id: getId(),
+      text: inputValue,
+      isComplete: false,
+    });
     setInputValue('');
   };
 
@@ -24,7 +20,7 @@ export default function TodoItemItemCreator() {
   };
 
   return (
-    <form onSubmit={(event) => { event.preventDefault(); addItem(); }}>
+    <form onSubmit={(event) => { event.preventDefault(); addNewTodo(); }}>
       <input type="text" value={inputValue} onChange={onChange} />
       <input type="submit" value="Add" />
     </form>

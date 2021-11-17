@@ -1,9 +1,12 @@
-import { useRecoilState } from 'recoil';
+import shallow from 'zustand/shallow'
 
-import { todoListFilterState } from './state';
+import { useFilterStore } from './state';
 
 export default function TodoListFilters() {
-  const [filter, setFilter] = useRecoilState(todoListFilterState);
+  const [filter, setFilter] = useFilterStore(
+    state => [state.filter, state.setFilter],
+    shallow
+  );
 
   const updateFilter = ({ target: {value} }) => {
     setFilter(value);
