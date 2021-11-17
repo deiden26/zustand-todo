@@ -1,6 +1,6 @@
 import create from 'zustand'
 
-import { updateListItem, removeListItem } from '../helpers';
+import { updateTodoInList, removeTodoFromList } from '../helpers';
 
 export const useTodoListStore = create((set, get) => ({
   todoList: [],
@@ -8,9 +8,9 @@ export const useTodoListStore = create((set, get) => ({
   getFilteredTodoList: (filter) => {
     switch (filter) {
       case  'Show Completed':
-        return get().todoList.filter((item) => item.isComplete);
+        return get().todoList.filter((todo) => todo.isComplete);
       case 'Show Uncompleted':
-        return get().todoList.filter((item) => !item.isComplete);
+        return get().todoList.filter((todo) => !todo.isComplete);
       default:
         return get().todoList;
     }
@@ -19,9 +19,9 @@ export const useTodoListStore = create((set, get) => ({
     todoList: [...state.todoList, newTodo],
   })),
   updateTodoItem: (updatedTodo) => set((state) => ({
-    todoList: updateListItem(state.todoList, updatedTodo),
+    todoList: updateTodoInList(state.todoList, updatedTodo),
   })),
   removeTodoItem: (todo) => set((state) => ({
-    todoList: removeListItem(state.todoList, todo)
+    todoList: removeTodoFromList(state.todoList, todo)
   })),
 }));

@@ -3,7 +3,7 @@ import { memo, useCallback } from 'react';
 import { useTodoListStore } from './state'
 
 export default memo(function TodoItem({todoId}) {
-  const item = useTodoListStore(useCallback(
+  const todo = useTodoListStore(useCallback(
     (state) => state.getTodo(todoId),
     [todoId]
   ));
@@ -13,30 +13,30 @@ export default memo(function TodoItem({todoId}) {
 
   const editItemText = ({ target: {value} }) => {
     updateTodoItem({
-      ...item,
+      ...todo,
       text: value,
     });
   }
 
   const toggleItemCompletion = () => {
     updateTodoItem({
-      ...item,
-      isComplete: !item.isComplete,
+      ...todo,
+      isComplete: !todo.isComplete,
     });
   };
 
   const deleteItem = () => {
-    removeTodoItem(item);
+    removeTodoItem(todo);
   }
 
-  console.log(`Rendering: ${item.text}`)
+  console.log(`Rendering: ${todo.text}`)
 
   return (
     <div>
-      <input type="text" value={item.text} onChange={editItemText} />
+      <input type="text" value={todo.text} onChange={editItemText} />
       <input
         type="checkbox"
-        checked={item.isComplete}
+        checked={todo.isComplete}
         onChange={toggleItemCompletion}
       />
       <button onClick={deleteItem}>X</button>
