@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import { useTodoListStore, useFilterStore } from './state';
 
 import TodoItem from "./TodoItem";
@@ -6,9 +7,10 @@ import TodoListFilters from "./TodoListFilters";
 
 export default function TodoList() {
   const filter = useFilterStore((state) => state.filter);
-  const todoList = useTodoListStore(
-    (state) => state.getFilteredTodoList(filter)
-  );
+  const todoList = useTodoListStore(useCallback(
+    (state) => state.getFilteredTodoList(filter),
+    [filter]
+  ));
 
   return (
     <>
